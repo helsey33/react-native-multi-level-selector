@@ -1,0 +1,35 @@
+{
+  "name": "react-native-multi-level-selector",
+  "version": "1.0.0",
+  "description": "A multi level selector for react native. Useful for when choosing filters etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/helsey33/Codebrahma_training_module/tree/master/problem_by_kameshwaran/dropdown"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "multi-level-dropdwon",
+    "filter",
+    "select"
+  ],
+  "peerDependencies": {
+    "react-native-vector-icons": "^6.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.6.4",
+    "@babel/runtime": "7.6.3",
+    "@react-native-community/eslint-config": "0.0.3",
+    "babel-jest": "24.9.0",
+    "eslint": "^5.16.0",
+    "jest": "24.9.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-test-renderer": "16.9.0"
+  },
+  "author": "Himanshu Ranjan",
+  "license": "ISC"
+}
