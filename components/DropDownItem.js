@@ -1,6 +1,9 @@
 import React, {useState, useLayoutEffect} from 'react';
-import {TouchableHighlight, Text, StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import {TouchableHighlight, Text, StyleSheet, View, Image} from 'react-native';
+
+import Checked from './correct.png';
+import Unchecked from './unchecked.png';
+import Next from './next.png';
 
 const DropDownItem = ({
   option,
@@ -48,15 +51,20 @@ const DropDownItem = ({
         onPress={handlePress}>
         <>
           {!nested && (
-            <Icon
-              style={[optionsIconStyles]}
-              name={checked ? 'check-square' : 'square'}
+            <Image
+              source={checked ? Checked : Unchecked}
+              style={[{width: 10, height: 10}, optionsIconStyles]}
             />
           )}
           <Text style={[{marginLeft: 5}, optionTextStyles]}>
             {option.value}
           </Text>
-          {nested && <Icon style={optionsIconStyles} name="chevron-right" />}
+          {nested && (
+            <Image
+              source={Next}
+              style={[{width: 10, height: 10}, optionsIconStyles]}
+            />
+          )}
         </>
       </TouchableHighlight>
     </View>

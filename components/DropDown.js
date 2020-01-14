@@ -5,17 +5,31 @@ import {
   StyleSheet,
   TouchableHighlight,
   Animated,
+  Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 
 import DropDownItem from './DropDownItem';
 import DisplayFilter from './DisplayFilter';
 
+import Back from './back.png';
+
 const deepClone = arr => JSON.parse(JSON.stringify(arr));
+
+const assignId = (options, parent) => {
+  options = options.map((option, i) => {
+    if (option.nested)
+      option.nested = assignId(option.nested, [...parent, i + 1]);
+    const idPrefix = parent.reduce((prefix, el) => (prefix += el + '.'), '');
+    return Object.assign(option, {id: idPrefix + (i + 1)});
+  });
+  return options;
+};
 
 export class DropDown extends Component {
   constructor(props) {
     super(props);
+    assignId(props.options, []);
+
     this.state = {
       isOpen: false,
       options: props.options,
@@ -206,9 +220,12 @@ export class DropDown extends Component {
                 this.props.optionTextWrapperStyles,
               ]}>
               <>
-                <Icon
-                  style={this.props.optionsIconStyles}
-                  name="chevron-left"
+                <Image
+                  source={Back}
+                  style={[
+                    {width: 10, height: 10},
+                    this.props.optionsIconStyles,
+                  ]}
                 />
                 <Text style={[this.props.optionTextStyles]}>Go Back</Text>
               </>

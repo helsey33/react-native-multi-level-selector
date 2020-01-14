@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+
+import Close from './close.png';
 
 const DisplayFilter = ({filters, removeFilter}) => {
   const renderOptions = options => (
@@ -27,7 +28,7 @@ const DisplayFilter = ({filters, removeFilter}) => {
             {renderOptions(option.nested)}
           </View>
           <TouchableOpacity onPress={() => removeFilter(option.id)}>
-            <Icon name="close" />
+            <Image style={{width: 10, height: 10}} source={Close} />
           </TouchableOpacity>
         </View>
       ))}

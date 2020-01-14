@@ -1,6 +1,6 @@
 {
   "name": "react-native-multi-level-selector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A multi level selector for react native. Useful for when choosing filters etc.",
   "main": "index.js",
   "scripts": {
@@ -17,9 +17,6 @@
     "filter",
     "select"
   ],
-  "peerDependencies": {
-    "react-native-vector-icons": "^6.6.0"
-  },
   "devDependencies": {
     "@babel/core": "7.6.4",
     "@babel/runtime": "7.6.3",
