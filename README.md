@@ -5,7 +5,7 @@ React Native component for Multi level options Selector for your application.
 ## Installation
 
 ```bash
-npm install --save react-multi-level-selector
+npm install --save react-native-multi-level-selector
 ```
 
 ##Update Log
