@@ -5,7 +5,7 @@ React Native component for Multi level options Selector for your application.
 ## Installation
 
 ```bash
-npm install --save react-multi-level-selector react-native-vector-icons@6.6.0
+npm install --save react-multi-level-selector
 ```
 
 ##Update Log

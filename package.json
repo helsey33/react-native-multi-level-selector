@@ -1,6 +1,6 @@
 {
   "name": "react-native-multi-level-selector",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A multi level selector for react native. Useful for when choosing filters etc.",
   "main": "index.js",
   "scripts": {
