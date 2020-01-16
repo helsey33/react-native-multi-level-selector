@@ -28,11 +28,11 @@ const assignId = (options, parent) => {
 export class DropDown extends Component {
   constructor(props) {
     super(props);
-    assignId(props.options, []);
+    this.optionsWithId = assignId(Array.from(props.options), []);
 
     this.state = {
       isOpen: false,
-      options: props.options,
+      options: this.optionsWithId,
       optionStack: [],
       levelDown: false,
       selected: [],
@@ -79,7 +79,7 @@ export class DropDown extends Component {
   };
 
   handleSelect = id => {
-    const _options = deepClone(this.props.options);
+    const _options = deepClone(this.optionsWithId);
     let _selected = deepClone(this.state.selected);
 
     const filterSelections = (selected, newSelection) => {

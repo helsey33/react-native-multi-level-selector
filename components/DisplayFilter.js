@@ -24,8 +24,10 @@ const DisplayFilter = ({filters, removeFilter}) => {
       {filters.map(option => (
         <View style={styles.parent} key={option.id}>
           <View style={styles.wrapper}>
-            <Text style={{marginHorizontal: 2}}>{option.value} -></Text>
-            {renderOptions(option.nested)}
+            <Text style={{marginHorizontal: 2}}>
+              {option.value} {option.nested && '->'}
+            </Text>
+            {option.nested && renderOptions(option.nested)}
           </View>
           <TouchableOpacity onPress={() => removeFilter(option.id)}>
             <Image style={{width: 10, height: 10}} source={Close} />
