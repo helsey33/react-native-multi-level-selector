@@ -6,12 +6,16 @@ import {
   TouchableHighlight,
   Animated,
   Image,
+  Dimensions,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import DropDownItem from './DropDownItem';
 import DisplayFilter from './DisplayFilter';
 
 import Back from './back.png';
+
+const {height} = Dimensions.get('screen');
 
 const deepClone = arr => JSON.parse(JSON.stringify(arr));
 
@@ -91,7 +95,7 @@ export class DropDown extends Component {
       });
       if (index === -1) return selected.concat(newSelection);
       else {
-        selected.splice(index, 1, newSelection).filter(el => el);
+        selected.splice(index, 1, newSelection);
         return selected.filter(el => el);
       }
     };
@@ -111,6 +115,7 @@ export class DropDown extends Component {
             return sArr.concat(parent);
           }
         } else if (sParent.id === id) {
+          if (i === 0) return null;
           return sArr.filter(el => el.id !== sParent.id);
         }
       }
@@ -178,6 +183,12 @@ export class DropDown extends Component {
 
     return (
       <View style={{padding: 10}}>
+        <TouchableWithoutFeedback onPress={this.toggleOpen}>
+          <Animated.View
+            pointerEvents={isOpen ? 'auto' : 'none'}
+            style={[styles.backDrop, {opacity: animation.opacity}]}
+          />
+        </TouchableWithoutFeedback>
         <TouchableHighlight
           underlayColor={this.props.inputUnderlayColor || '#fff'}
           onPress={this.toggleOpen}
@@ -196,56 +207,57 @@ export class DropDown extends Component {
             )}
           </>
         </TouchableHighlight>
+        <View style={styles.optionWrapper}>
+          <Animated.View
+            pointerEvents={!isOpen ? 'none' : 'auto'}
+            style={[
+              styles.optionContainer,
+              {
+                opacity: animation.opacity,
+                transform: [
+                  {
+                    translateY: animation.translateY,
+                  },
+                ],
+              },
+              this.props.optionContainerStyles,
+            ]}>
+            {levelDown && (
+              <TouchableHighlight
+                onPress={this.goBack}
+                underlayColor="#fff"
+                style={[
+                  styles.optionTextWrapper,
+                  this.props.optionTextWrapperStyles,
+                ]}>
+                <>
+                  <Image
+                    source={Back}
+                    style={[
+                      {width: 10, height: 10},
+                      this.props.optionsIconStyles,
+                    ]}
+                  />
+                  <Text style={[this.props.optionTextStyles]}>Go Back</Text>
+                </>
+              </TouchableHighlight>
+            )}
 
-        <Animated.View
-          pointerEvents={!isOpen ? 'none' : 'auto'}
-          style={[
-            styles.optionContainer,
-            {
-              opacity: animation.opacity,
-              transform: [
-                {
-                  translateY: animation.translateY,
-                },
-              ],
-            },
-            this.props.optionContainerStyles,
-          ]}>
-          {levelDown && (
-            <TouchableHighlight
-              onPress={this.goBack}
-              underlayColor="#fff"
-              style={[
-                styles.optionTextWrapper,
-                this.props.optionTextWrapperStyles,
-              ]}>
-              <>
-                <Image
-                  source={Back}
-                  style={[
-                    {width: 10, height: 10},
-                    this.props.optionsIconStyles,
-                  ]}
-                />
-                <Text style={[this.props.optionTextStyles]}>Go Back</Text>
-              </>
-            </TouchableHighlight>
-          )}
-
-          {options.map(el => (
-            <DropDownItem
-              handleSelect={this.handleSelect}
-              key={el.id}
-              option={el}
-              nested={el.nested}
-              selected={selected}
-              loadNested={el.nested && this.loadNested}
-              optionTextWrapperStyles={this.props.optionTextWrapperStyles}
-              optionTextStyles={this.props.optionTextStyles}
-              optionsIconStyles={this.props.optionsIconStyles}
-            />
-          ))}
-        </Animated.View>
+            {options.map(el => (
+              <DropDownItem
+                handleSelect={this.handleSelect}
+                key={el.id}
+                option={el}
+                nested={el.nested}
+                selected={selected}
+                loadNested={el.nested && this.loadNested}
+                optionTextWrapperStyles={this.props.optionTextWrapperStyles}
+                optionTextStyles={this.props.optionTextStyles}
+                optionsIconStyles={this.props.optionsIconStyles}
+              />
+            ))}
+          </Animated.View>
+        </View>
       </View>
     );
   }
@@ -259,14 +271,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    zIndex: 10,
+  },
+  backDrop: {
+    height,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    ...StyleSheet.absoluteFill,
+  },
+  optionWrapper: {
+    ...StyleSheet.absoluteFill,
+    height,
   },
   optionContainer: {
     width: '100%',
     backgroundColor: '#fff',
     borderRadius: 5,
     elevation: 5,
-    position: 'relative',
-    top: 10,
+    position: 'absolute',
+    bottom: '9%',
   },
   optionTextWrapper: {
     padding: 12,

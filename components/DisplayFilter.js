@@ -29,7 +29,9 @@ const DisplayFilter = ({filters, removeFilter}) => {
             </Text>
             {option.nested && renderOptions(option.nested)}
           </View>
-          <TouchableOpacity onPress={() => removeFilter(option.id)}>
+          <TouchableOpacity
+            style={{padding: 10}}
+            onPress={() => removeFilter(option.id)}>
             <Image style={{width: 10, height: 10}} source={Close} />
           </TouchableOpacity>
         </View>
@@ -43,19 +45,19 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 5,
+    padding: 5,
   },
   parent: {
     flexDirection: 'row',
     backgroundColor: '#eee',
     borderRadius: 5,
     padding: 10,
-    marginVertical: 5,
+    marginVertical: 4,
     marginHorizontal: 2,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  wrapper: {flexDirection: 'row', maxWidth: '97%', flexWrap: 'wrap'},
+  wrapper: {flexDirection: 'row', maxWidth: '91%', flexWrap: 'wrap'},
 });
 
 export default DisplayFilter;
