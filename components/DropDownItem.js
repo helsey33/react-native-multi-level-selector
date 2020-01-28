@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
+    zIndex: 100,
   },
 });
 

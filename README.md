@@ -14,6 +14,7 @@ npm install --save react-native-multi-level-selector
 
 - Removed react native vector icons dependency
 - Users do not have to enter the id themselves manually thus improving developer experience. (Careful of the level of your nesting though)
+- Design Changes
 
 ## Usage
 
