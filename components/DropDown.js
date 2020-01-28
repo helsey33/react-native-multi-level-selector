@@ -1,20 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable dot-notation */
 /* eslint-disable curly */
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Text,
   View,
   StyleSheet,
   TouchableHighlight,
   Animated,
-  Image,
-} from 'react-native';
+  Image
+} from "react-native";
 
-import DropDownItem from './DropDownItem';
-import DisplayFilter from './DisplayFilter';
+import DropDownItem from "./DropDownItem";
+import DisplayFilter from "./DisplayFilter";
 
-import Back from './back.png';
+import Back from "./back.png";
 
 const deepClone = arr => JSON.parse(JSON.stringify(arr));
 
@@ -22,8 +22,8 @@ const assignId = (options, parent) => {
   options = options.map((option, i) => {
     if (option.nested)
       option.nested = assignId(option.nested, [...parent, i + 1]);
-    const idPrefix = parent.reduce((prefix, el) => (prefix += el + '.'), '');
-    return Object.assign(option, {id: idPrefix + (i + 1)});
+    const idPrefix = parent.reduce((prefix, el) => (prefix += el + "."), "");
+    return Object.assign(option, { id: idPrefix + (i + 1) });
   });
   return options;
 };
@@ -41,8 +41,8 @@ export class DropDown extends Component {
       selected: [],
       animation: {
         opacity: new Animated.Value(0),
-        translateY: new Animated.Value(20),
-      },
+        translateY: new Animated.Value(20)
+      }
     };
   }
 
@@ -53,30 +53,30 @@ export class DropDown extends Component {
           Animated.timing(this.state.animation.opacity, {
             toValue: 1,
             duration: 200,
-            useNativeDriver: true,
+            useNativeDriver: true
           }),
           Animated.timing(this.state.animation.translateY, {
             toValue: 0,
             duration: 300,
-            useNativeDriver: true,
-          }),
+            useNativeDriver: true
+          })
         ]).start();
       } else {
         Animated.parallel([
           Animated.timing(this.state.animation.opacity, {
             toValue: 0,
             duration: 200,
-            useNativeDriver: true,
+            useNativeDriver: true
           }),
           Animated.timing(this.state.animation.translateY, {
             toValue: 20,
             duration: 300,
-            useNativeDriver: true,
-          }),
+            useNativeDriver: true
+          })
         ]).start();
       }
       return {
-        isOpen: !prevState.isOpen,
+        isOpen: !prevState.isOpen
       };
     });
   };
@@ -125,15 +125,15 @@ export class DropDown extends Component {
         const nested = selectOption(parent.nested, sParent.nested, (i += 2));
         if (Array.isArray(nested)) {
           if (nested.length) {
-            parent['nested'] = nested;
+            parent["nested"] = nested;
           } else return null;
         } else if (nested === null) {
-          sParent['nested'] = sParent.nested.filter(
-            el => el.id !== id.slice(0, i + 1),
+          sParent["nested"] = sParent.nested.filter(
+            el => el.id !== id.slice(0, i + 1)
           );
-          return sParent['nested'].length ? sParent : null;
+          return sParent["nested"].length ? sParent : null;
         } else {
-          parent['nested'] = sParent.nested
+          parent["nested"] = sParent.nested
             ? filterSelections(sParent.nested, nested)
             : [nested];
         }
@@ -146,7 +146,7 @@ export class DropDown extends Component {
     _selected = filterSelections(_selected, newSelection);
 
     this.setState({
-      selected: _selected,
+      selected: _selected
     });
 
     if (this.props.onChange) {
@@ -158,7 +158,7 @@ export class DropDown extends Component {
 
   removeFilter = id => {
     this.setState(prevState => ({
-      selected: prevState.selected.filter(el => el.id !== id),
+      selected: prevState.selected.filter(el => el.id !== id)
     }));
   };
 
@@ -166,31 +166,33 @@ export class DropDown extends Component {
     this.setState(prevState => ({
       optionStack: prevState.optionStack.concat([prevState.options]),
       options,
-      levelDown: true,
+      levelDown: true
     }));
   };
 
   goBack = () => {
     this.setState(prevState => ({
       options: prevState.optionStack.pop(),
-      levelDown: !!prevState.optionStack.length,
+      levelDown: !!prevState.optionStack.length
     }));
   };
 
   render() {
-    const {options, isOpen, levelDown, selected, animation} = this.state;
+    const { options, isOpen, levelDown, selected, animation } = this.state;
 
     return (
-      <View>
+      <View style={{ zIndex: 100 }}>
         <TouchableHighlight
-          underlayColor={this.props.inputUnderlayColor || '#fff'}
+          underlayColor={this.props.inputUnderlayColor || "#fff"}
           onPress={this.toggleOpen}
-          style={[styles.rootSelect, this.props.inputStyles]}>
+          style={[styles.rootSelect, this.props.inputStyles]}
+        >
           <>
             {!selected.length ? (
               <Text
-                style={{color: 'gray', padding: 5, margin: 3, fontSize: 23}}>
-                {this.props.placeholder || 'Multi Level Selector'}
+                style={{ color: "gray", padding: 5, margin: 3, fontSize: 23 }}
+              >
+                {this.props.placeholder || "Multi Level Selector"}
               </Text>
             ) : (
               <DisplayFilter
@@ -201,33 +203,35 @@ export class DropDown extends Component {
           </>
         </TouchableHighlight>
         <Animated.View
-          pointerEvents={!isOpen ? 'none' : 'auto'}
+          pointerEvents={!isOpen ? "none" : "auto"}
           style={[
             styles.optionContainer,
             {
               opacity: animation.opacity,
               transform: [
                 {
-                  translateY: animation.translateY,
-                },
-              ],
+                  translateY: animation.translateY
+                }
+              ]
             },
-            this.props.optionContainerStyles,
-          ]}>
+            this.props.optionContainerStyles
+          ]}
+        >
           {levelDown && (
             <TouchableHighlight
               onPress={this.goBack}
               underlayColor="#fff"
               style={[
                 styles.optionTextWrapper,
-                this.props.optionTextWrapperStyles,
-              ]}>
+                this.props.optionTextWrapperStyles
+              ]}
+            >
               <>
                 <Image
                   source={Back}
                   style={[
-                    {width: 10, height: 10},
-                    this.props.optionsIconStyles,
+                    { width: 10, height: 10 },
+                    this.props.optionsIconStyles
                   ]}
                 />
                 <Text style={[this.props.optionTextStyles]}>Go Back</Text>
@@ -259,26 +263,26 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     elevation: 5,
     margin: 5,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   optionContainer: {
-    width: '95%',
-    position: 'absolute',
-    top: '100%',
-    alignSelf: 'center',
+    width: "95%",
+    position: "absolute",
+    top: "100%",
+    alignSelf: "center",
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     elevation: 5,
-    zIndex: 100,
+    zIndex: 100
   },
   optionTextWrapper: {
     padding: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+    flexDirection: "row",
+    alignItems: "center"
+  }
 });
 
 export default DropDown;
